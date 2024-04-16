@@ -1,9 +1,13 @@
 const {app, BrowserWindow, ipcMain, Notification } = require('electron')
 try { require('electron-reloader')(module);} catch {};
 const DiscordRPC = require('discord-rpc');
-const { startCheatsLogin } = require('./cheatsMain');
+const path = require('path');
+//const { startCheatsLogic } = require('./cheatsMain');
+const { OverlayController, OVERLAY_WINDOW_OPTS } = require('electron-overlay-window');
+const url = require('url');
 
 let mainWindow = null;
+let overlayWindow = null;
 
 let rpc;
 
@@ -46,7 +50,6 @@ function discordRPC(clientId) {
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
-        autoHideMenuBar: true,
         width: 1200,
         height: 800,
         icon: path.join(__dirname, 'src/assets/logo.png'),
@@ -69,13 +72,42 @@ const createWindow = () => {
 
     mainWindow.on('closed', () => {
         mainWindow = null
-        if(client == null) return;
-        client.disconnect();
     });
 
     mainWindow.on("ready-to-show", async () => {
         mainWindow.webContents.openDevTools();
 
+    });
+
+}
+
+const createOverlayWindow = () => {
+    overlayWindow = new BrowserWindow({
+        ...OVERLAY_WINDOW_OPTS,
+        width: 800,
+        height: 600,
+        resizable: false,
+        transparent: true,
+        icon: path.join(__dirname, 'src/assets/logo.png'),
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'src/preload.js'),
+        },
+        frame: false,
+        titleBarStyle: 'hidden',
+    });
+
+    overlayWindow.loadURL(
+        url.format({
+            pathname: path.join(__dirname, 'src/overlay.html'),
+            protocol: 'file:',
+            slashes: true
+        })
+    );
+
+    overlayWindow.on('closed', () => {
+        overlayWindow = null
     });
 
 }
@@ -91,15 +123,30 @@ app.whenReady().then(async () => {
     ipcMain.on('minimize', (event) => {
         mainWindow.minimize();
     });
+
+    ipcMain.on('esp', (event) => {
+        overlayWindow.webContents.send('esp');
+    });
+
     
     if (mainWindow === null){
         createWindow();    
+        createOverlayWindow();    
+
+        OverlayController.attachByTitle(overlayWindow, 'AssaultCube');
+        // OverlayController.on('attach', ev => { console.log('WO: attach', ev) })
+        // OverlayController.on('detach', ev => { console.log('WO: detach', ev) })
+        // OverlayController.on('blur', ev => { console.log('WO: blur', ev)})
+        // OverlayController.on('focus', ev => { console.log('WO: focus', ev)})
+        // OverlayController.on('fullscreen', ev => console.log('WO: fullscreen', ev))
+        // OverlayController.on('moveresize', ev => console.log('WO: fullscreen', ev))
+
         if (process.platform === 'win32')
         {
             app.setAppUserModelId("AssaultCubeJSx");
         }    
 
-        startCheatsLogic();
+        //startCheatsLogic();
     }
 
 });
