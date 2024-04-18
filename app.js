@@ -5,11 +5,11 @@ const path = require('path');
 const { OverlayController, OVERLAY_WINDOW_OPTS } = require('electron-overlay-window');
 const url = require('url');
 const { discordRPC } = require('./discord');
-const { startCheatsLogic } = require('./cheatsMain');
+const CheatsMain = require('./cheatsMain');
 
 let mainWindow = null;
 let overlayWindow = null;
-
+let cheats = null;
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
@@ -91,6 +91,9 @@ app.whenReady().then(async () => {
         overlayWindow.webContents.send('esp');
     });
 
+    ipcMain.on('infiniteAmmo', (event) => {
+        cheats.infiniteAmmo = !cheats.infiniteAmmo;
+    });
     
     if (mainWindow === null){
         createWindow();    
@@ -109,7 +112,7 @@ app.whenReady().then(async () => {
             app.setAppUserModelId("AssaultCubeJSx");
         }    
 
-        startCheatsLogic();
+        cheats = new CheatsMain();        
     }
 
 });

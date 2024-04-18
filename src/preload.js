@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('eAPI', {
     minimize: () => ipcRenderer.send('minimize'),
     maximize: () => ipcRenderer.send('maximize'),
     esp: () => ipcRenderer.send('esp'),
+    infiniteAmmo: () => ipcRenderer.send('infiniteAmmo'),
 })
 
 ipcRenderer.on('esp', (event) => {
