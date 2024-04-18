@@ -1,52 +1,15 @@
 const {app, BrowserWindow, ipcMain, Notification } = require('electron')
 try { require('electron-reloader')(module);} catch {};
-const DiscordRPC = require('discord-rpc');
 const path = require('path');
 //const { startCheatsLogic } = require('./cheatsMain');
 const { OverlayController, OVERLAY_WINDOW_OPTS } = require('electron-overlay-window');
 const url = require('url');
+const { discordRPC } = require('./discord');
+const { startCheatsLogic } = require('./cheatsMain');
 
 let mainWindow = null;
 let overlayWindow = null;
 
-let rpc;
-
-async function setActivity() {
-    if (!rpc || !mainWindow) {
-        return;
-    }
-
-    const activity = { 
-        instance: false, 
-        startTimestamp, 
-        state: "Cheating on Assault Cube...",
-        largeImageKey: "logoimg",
-        largeImageText: "Logo",
-        smallImageKey: "chatimg",
-        smallImageText: "Aimbotting...",
-    }; 
-
-    rpc.setActivity(activity);
-}
-
-function discordRPC(clientId) {
-    if (rpc) {
-        rpc.clearActivity();
-        rpc.destroy();
-        rpc = undefined;
-    }
-    rpc = new DiscordRPC.Client({ transport: 'ipc' });
-    rpc.on('ready', () => {
-        setActivity();
-
-        setInterval(() => {
-            setActivity();
-        }, 15e3);
-    });
-
-    startTimestamp = new Date();
-    rpc.login({ clientId });
-}
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
@@ -114,7 +77,7 @@ const createOverlayWindow = () => {
 
 app.whenReady().then(async () => {
 
-    discordRPC("1229541932431179797");
+    discordRPC(mainWindow, "1229541932431179797");
 
     ipcMain.on('close', (event) => {
         app.quit();
@@ -146,7 +109,7 @@ app.whenReady().then(async () => {
             app.setAppUserModelId("AssaultCubeJSx");
         }    
 
-        //startCheatsLogic();
+        startCheatsLogic();
     }
 
 });
