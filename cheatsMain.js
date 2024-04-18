@@ -1,11 +1,12 @@
 const memoryjs = require('./libs/memoryjs/index');
 const dataManager = require('./offsets');
-const { sleep } = require('./utils');
 
 class CheatsMain {
 
     constructor() {
-        this.infiniteAmmo = false
+        this.infiniteAmmo = false;
+        this.godMode = false;
+
         this.startCheatsLogic();
     }
 
@@ -19,7 +20,10 @@ class CheatsMain {
         dataManager.player.pointer = memoryjs.readMemory(dataManager.handle, dataManager.base + dataManager.player.address.base, memoryjs.INT);
 
         // player ammo
-        dataManager.player.address.ammo = memoryjs.readMemory(dataManager.handle, dataManager.player.pointer + dataManager.player.offsets.ammo, memoryjs.INT);
+        dataManager.player.address.ammo = dataManager.player.pointer + dataManager.player.offsets.ammo;
+
+        // player health
+        dataManager.player.address.health = dataManager.player.pointer + dataManager.player.offsets.health;
 
     }
 
@@ -27,22 +31,21 @@ class CheatsMain {
 
         this.initializeBaseAndOffsets();
 
-        while (true) {
-            
-            if(!memoryjs.isProcessRunning(ac_client.handle)) {
-                break;
-            }
+        setInterval(() => {
 
             if(this.infiniteAmmo) {
                 memoryjs.writeMemory(dataManager.handle, dataManager.player.address.ammo, 1000, memoryjs.INT);
             }
 
-            sleep(100);
-        }
+            if(this.godMode) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.health, 1000, memoryjs.INT);
+            }
+
+        }, 500);
         
-        memoryjs.closeProcess(ac_client.handle);
+        //memoryjs.closeProcess(dataManager.handle);
     }
 
 }
 
-module.exports = CheatsMain
+module.exports = new CheatsMain()

@@ -5,11 +5,10 @@ const path = require('path');
 const { OverlayController, OVERLAY_WINDOW_OPTS } = require('electron-overlay-window');
 const url = require('url');
 const { discordRPC } = require('./discord');
-const CheatsMain = require('./cheatsMain');
+const cheatsMain = require('./cheatsMain');
 
 let mainWindow = null;
 let overlayWindow = null;
-let cheats = null;
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
@@ -87,14 +86,14 @@ app.whenReady().then(async () => {
         mainWindow.minimize();
     });
 
-    ipcMain.on('esp', (event) => {
-        overlayWindow.webContents.send('esp');
+    ipcMain.on('cheat', (event, cheat) => {
+        switch(cheat) {
+            case 'esp': overlayWindow.webContents.send('esp'); break;
+            case 'infiniteAmmo': cheatsMain.infiniteAmmo = !cheatsMain.infiniteAmmo; break;
+            case 'godMode': cheatsMain.godMode = !cheatsMain.godMode; break;
+        }
     });
 
-    ipcMain.on('infiniteAmmo', (event) => {
-        cheats.infiniteAmmo = !cheats.infiniteAmmo;
-    });
-    
     if (mainWindow === null){
         createWindow();    
         createOverlayWindow();    
@@ -110,9 +109,7 @@ app.whenReady().then(async () => {
         if (process.platform === 'win32')
         {
             app.setAppUserModelId("AssaultCubeJSx");
-        }    
-
-        cheats = new CheatsMain();        
+        }         
     }
 
 });
