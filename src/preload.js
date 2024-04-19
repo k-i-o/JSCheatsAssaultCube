@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld('eAPI', {
     close: () => ipcRenderer.send('close'),
     minimize: () => ipcRenderer.send('minimize'),
     maximize: () => ipcRenderer.send('maximize'),
-    cheat: (cheat) => ipcRenderer.send('cheat', cheat),
+    cheat: (cheat, data = null) => ipcRenderer.send('cheat', cheat, data),
 })
 
 ipcRenderer.on('esp', (event) => {

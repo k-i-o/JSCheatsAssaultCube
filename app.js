@@ -86,11 +86,19 @@ app.whenReady().then(async () => {
         mainWindow.minimize();
     });
 
-    ipcMain.on('cheat', (event, cheat) => {
+    ipcMain.on('cheat', (event, cheat, data = null) => {
         switch(cheat) {
             case 'esp': overlayWindow.webContents.send('esp'); break;
-            case 'infiniteAmmo': cheatsMain.infiniteAmmo = !cheatsMain.infiniteAmmo; break;
-            case 'godMode': cheatsMain.godMode = !cheatsMain.godMode; break;
+            case 'fly': cheatsMain.fly = !cheatsMain.fly; break;
+            case 'flySpeed': cheatsMain.flySpeed = data; break;
+            case 'aimbot': cheatsMain.aimbot = !cheatsMain.aimbot; break;
+            case 'unlimitedHealth': cheatsMain.infiniteHealth = !cheatsMain.infiniteHealth; break;
+            case 'unlimitedShield': cheatsMain.infiniteShield = !cheatsMain.infiniteShield; break;
+            case 'unlimitedPistolAmmo': cheatsMain.infiniteAmmoPistol = !cheatsMain.infiniteAmmoPistol; break;
+            case 'unlimitedRiffleAmmo': cheatsMain.infiniteAmmoRiffle = !cheatsMain.infiniteAmmoRiffle; break;
+            case 'unlimitedDoublePistolAmmo': cheatsMain.infiniteAmmoDoublePistol = !cheatsMain.infiniteAmmoDoublePistol; break;
+            case 'unlimitedGranade': cheatsMain.infiniteGranade = !cheatsMain.infiniteGranade; break;
+
         }
     });
 

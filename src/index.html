@@ -76,8 +76,16 @@
               
         <div class="container">
           <button onclick="eAPI.cheat('esp')">ESP</button>
-          <button onclick="eAPI.cheat('infiniteAmmo')">Infinite Ammo</button>
-          <button onclick="eAPI.cheat('godMode')">God Mode</button>
+          <button onclick="eAPI.cheat('fly')">Enable Fly</button>
+          <input type="range" min="0" max="500" value="10" class="slider" id="flySpeed" oninput="eAPI.cheat('flySpeed', this.value)">
+          <button onclick="eAPI.cheat('aimbot')">Enable Aimbot</button>
+          <button onclick="eAPI.cheat('unlimitedHealth')">Unlimited Health</button>
+          <button onclick="eAPI.cheat('unlimitedArmor')">Unlimited Armor</button>
+          <button onclick="eAPI.cheat('unlimitedPistolAmmo')">Unlimited Pistol Ammo</button>
+          <button onclick="eAPI.cheat('unlimitedRiffleAmmo')">Unlimited Riffle Ammo</button>
+          <button onclick="eAPI.cheat('unlimitedDoublePistolAmmo')">Unlimited Double Pistol Ammo</button>
+          <button onclick="eAPI.cheat('unlimitedGrenadeAmmo')">Unlimited Grenade Ammo</button>
+          <button onclick="eAPI.cheat('unlimitedGrenades')">Unlimited Grenades</button>
         </div>
         
         <!-- <script src="scripts.js"></script> -->
