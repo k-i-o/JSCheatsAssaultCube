@@ -23,11 +23,12 @@
       "installerIcon": "src/assets/kiologo256x256.ico",
       "uninstallerIcon": "src/assets/kiologo256x256.ico",
       "uninstallDisplayName": "AssaultCubeJSx",
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "AssaultCubeJSx",
+      "perMachine": true,
       "runAfterFinish": true
     }
   },
