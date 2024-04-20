@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 @c-primary: #d32213;
 @c-secondary: #e9910d;
 @c-tertiary: #eec406;
@@ -15,11 +17,40 @@
 
 @h-title-bar: 25px;
 
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
+
+*::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+    background: @c-bar;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.623);
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: @c-hover;
+}
+
 html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: @c-bg;
+    font-family: 'Roboto', sans-serif;
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        padding: 0;
+    }
 
     button {
         color: @c-text;
@@ -27,7 +58,7 @@ html, body {
         border: none;
         cursor: pointer;
         transition: all 0.2s 0s ease-in-out;
-        padding: 7px 15px;
+        padding: 10px 15px;
         display: flex;
         border-radius: 5px;
         align-items: center;
@@ -37,6 +68,69 @@ html, body {
         &:hover:not(:disabled) {
             opacity: 0.6;
         }
+    }
+
+    input[type="range"] {
+        /* removing default appearance */
+        -webkit-appearance: none;
+        appearance: none; 
+        /* creating a custom design */
+        width: 100%;
+        cursor: pointer;
+        outline: none;
+        /*  slider progress trick  */
+        overflow: hidden;
+        border-radius: 16px;
+        border: 1px solid white;
+    }
+    
+    /* Track: webkit browsers */
+    input[type="range"]::-webkit-slider-runnable-track {
+        height: 15px;
+        background: #ccc;
+        border-radius: 16px;
+    }
+    
+    /* Track: Mozilla Firefox */
+    input[type="range"]::-moz-range-track {
+        height: 15px;
+        background: #ccc;
+        border-radius: 16px;
+    }
+    
+    /* Thumb: webkit */
+    input[type="range"]::-webkit-slider-thumb {
+        /* removing default appearance */
+        -webkit-appearance: none;
+        appearance: none; 
+        /* creating a custom design */
+        height: 15px;
+        width: 15px;
+        background-color: #fff;
+        border-radius: 50%;
+        border: 2px solid @c-button;
+        /*  slider progress trick  */
+        box-shadow: -407px 0 0 400px @c-button;
+    }
+    
+    
+    /* Thumb: Firefox */
+        input[type="range"]::-moz-range-thumb {
+        height: 15px;
+        width: 15px;
+        background-color: #fff;
+        border-radius: 50%;
+        border: 1px solid @c-button;
+        /*  slider progress trick  */
+        box-shadow: -407px 0 0 400px @c-button;
+    }
+
+    .range {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        color: white;
+        justify-content: space-evenly;
     }
 
     .title-bar {
@@ -92,13 +186,49 @@ html, body {
 
     .container {
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        align-content: flex-start;
-        flex-wrap: wrap;
         height: 100vh;
         width: 100vw;
-        padding: 20px;
-        gap: 20px;
+
+        .left-menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            width: 200px;
+            height: 100%;
+            padding: 20px;
+            padding-top: 0;
+            background-color: @c-bar;
+            box-shadow: 0 0 10px 1px #00000096;
+            border-right: 3px solid #ffffff14;
+            overflow-y: auto;
+            color: white;
+
+            h3 {
+                padding-bottom: 10px; 
+            }
+
+            button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+        .cheats {
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 2fr));
+            grid-template-rows: repeat(12, 2fr);
+            overflow-y: auto;
+
+            &#visual {
+                display: none;
+            }
+        }
     }
 }

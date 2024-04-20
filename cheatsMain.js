@@ -84,13 +84,14 @@ class CheatsMain {
         };
 
         setInterval(() => {
-            tempPos = {
-                x: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos, memoryjs.FLOAT),
-                y: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos + 0x4, memoryjs.FLOAT),
-                z: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos + 0x8, memoryjs.FLOAT),
-            };
 
             if(this.fly) {
+                tempPos = {
+                    x: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos, memoryjs.FLOAT),
+                    y: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos + 0x4, memoryjs.FLOAT),
+                    z: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos + 0x8, memoryjs.FLOAT),
+                };
+                
                 if(this.isKeyPressed('w')) {
                     this.tempPos.z += 0.1;
                 }
@@ -121,15 +122,33 @@ class CheatsMain {
 
             }
 
-            if(this.infiniteAmmo) {
-                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.ammo, 1000, memoryjs.INT);
+            if(this.aimbot) {
             }
 
-            if(this.godMode) {
-                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.health, 1000, memoryjs.INT);
+            if(this.infiniteHealth) {
+                console.log('infinite health');
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.health, 9999, memoryjs.INT);
             }
 
-             
+            if(this.infiniteShield) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.shield, 9999, memoryjs.INT);
+            }
+
+            if(this.infiniteAmmoPistol) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.ammoPistol, 9999, memoryjs.INT);
+            }
+
+            if(this.infiniteAmmoRiffle) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.ammoRiffle, 9999, memoryjs.INT);
+            }
+
+            if(this.infiniteAmmoDoublePistol) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.ammoDoublePistol, 9999, memoryjs.INT);
+            }
+
+            if(this.infiniteGranade) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.granade, 9999, memoryjs.INT);
+            }
 
         }, 500);
         

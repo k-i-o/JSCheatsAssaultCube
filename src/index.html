@@ -75,19 +75,45 @@
         </div>
               
         <div class="container">
-          <button onclick="eAPI.cheat('esp')">ESP</button>
-          <button onclick="eAPI.cheat('fly')">Enable Fly</button>
-          <input type="range" min="0" max="500" value="10" class="slider" id="flySpeed" oninput="eAPI.cheat('flySpeed', this.value)">
-          <button onclick="eAPI.cheat('aimbot')">Enable Aimbot</button>
-          <button onclick="eAPI.cheat('unlimitedHealth')">Unlimited Health</button>
-          <button onclick="eAPI.cheat('unlimitedArmor')">Unlimited Armor</button>
-          <button onclick="eAPI.cheat('unlimitedPistolAmmo')">Unlimited Pistol Ammo</button>
-          <button onclick="eAPI.cheat('unlimitedRiffleAmmo')">Unlimited Riffle Ammo</button>
-          <button onclick="eAPI.cheat('unlimitedDoublePistolAmmo')">Unlimited Double Pistol Ammo</button>
-          <button onclick="eAPI.cheat('unlimitedGrenadeAmmo')">Unlimited Grenade Ammo</button>
-          <button onclick="eAPI.cheat('unlimitedGrenades')">Unlimited Grenades</button>
+          <div class="left-menu">
+            <h3>AssaultCubeJSx</h3>
+            <button onclick="handleTabClick('exploit')">Exploit</button>
+            <button onclick="handleTabClick('visual')">Visual</button>
+            <img src="assets/logo192x192.png" alt="logo" width="80%" style="margin-top: 20px;">
+          </div>
+          
+          <div class="cheats" id="exploit">
+            <button onclick="eAPI.cheat('fly')">Enable Fly</button>
+            <div class="range">
+              Fly speed
+              <input type="range" min="0" max="500" value="10" class="slider" id="flySpeed" oninput="eAPI.cheat('flySpeed', this.value)">
+            </div>
+            <button onclick="eAPI.cheat('aimbot')">Enable Aimbot</button>
+            <button onclick="eAPI.cheat('unlimitedHealth')">Unlimited Health</button>
+            <button onclick="eAPI.cheat('unlimitedArmor')">Unlimited Armor</button>
+            <button onclick="eAPI.cheat('unlimitedPistolAmmo')">Unlimited Pistol Ammo</button>
+            <button onclick="eAPI.cheat('unlimitedRiffleAmmo')">Unlimited Riffle Ammo</button>
+            <button onclick="eAPI.cheat('unlimitedDoublePistolAmmo')">Unlimited Double Pistol Ammo</button>
+            <button onclick="eAPI.cheat('unlimitedGrenadeAmmo')">Unlimited Grenade Ammo</button>
+            <button onclick="eAPI.cheat('unlimitedGrenades')">Unlimited Grenades</button>
+          </div>
+
+          <div class="cheats" id="visual">
+            <button onclick="eAPI.cheat('esp')">ESP</button>
+          </div>
+          
         </div>
-        
-        <!-- <script src="scripts.js"></script> -->
+
+        <script>
+          const handleTabClick = (tab) => {
+            const tabs = document.querySelectorAll('.cheats');
+            tabs.forEach((t) => {
+              t.style.display = 'none';
+            });
+            document.getElementById(tab).style.display = 'grid';
+          }
+
+          handleTabClick('exploit');
+        </script>
     </body>
 </html>

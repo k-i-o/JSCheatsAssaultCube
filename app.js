@@ -12,9 +12,9 @@ let overlayWindow = null;
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 800,
-        icon: path.join(__dirname, 'src/assets/logo.png'),
+        width: 750,
+        height: 350,
+        icon: path.join(__dirname, 'src/assets/logo192x192.png'),
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: true,
@@ -36,21 +36,21 @@ const createWindow = () => {
         mainWindow = null
     });
 
-    mainWindow.on("ready-to-show", async () => {
-        mainWindow.webContents.openDevTools();
+    // mainWindow.on("ready-to-show", async () => {
+    //     mainWindow.webContents.openDevTools();
 
-    });
+    // });
 
 }
 
 const createOverlayWindow = () => {
     overlayWindow = new BrowserWindow({
         ...OVERLAY_WINDOW_OPTS,
-        width: 800,
-        height: 600,
+        width: 850,
+        height: 650,
         resizable: false,
         transparent: true,
-        icon: path.join(__dirname, 'src/assets/logo.png'),
+        icon: path.join(__dirname, 'src/assets/logo192x192.png'),
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: true,
@@ -117,7 +117,10 @@ app.whenReady().then(async () => {
         if (process.platform === 'win32')
         {
             app.setAppUserModelId("AssaultCubeJSx");
-        }         
+        } 
+        
+        //notify app started
+        new Notification({title: 'AssaultCubeJS', body: 'Cheat menu started!', icon: path.join(__dirname, 'src/assets/logo192x192.png')}).show();
     }
 
 });
