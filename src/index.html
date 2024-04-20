@@ -39,22 +39,6 @@
                 />
               </svg>
               </button>
-              <button id="maximize" onclick="eAPI.maximize()" title="Maximize the window">
-                  <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M16.5 8.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h2.25m8.25-8.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-7.5A2.25 2.25 0 018.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 00-2.25 2.25v6"
-                  />
-                </svg>
-              </button>
               <button id="close" onclick="eAPI.close()" title="CLOSE the application!!">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -76,30 +60,52 @@
               
         <div class="container">
           <div class="left-menu">
-            <h3>AssaultCubeJSx</h3>
-            <button onclick="handleTabClick('exploit')">Exploit</button>
-            <button onclick="handleTabClick('visual')">Visual</button>
-            <img src="assets/logo192x192.png" alt="logo" width="80%" style="margin-top: 20px;">
+            <div class="top">
+              <h3 class="title">AssaultCubeJSx</h3>
+              <button onclick="handleTabClick('exploit')">Exploit</button>
+              <button onclick="handleTabClick('visual')">Visual</button>
+            </div>
+
+            <div class="bottom">
+              <img src="assets/logo192x192.png" alt="logo" width="80%">
+              <button onclick="eAPI.cheat('attach')" class="primary">Attach</button>
+            </div>
           </div>
           
-          <div class="cheats" id="exploit">
-            <button onclick="eAPI.cheat('fly')">Enable Fly</button>
-            <div class="range">
-              Fly speed
-              <input type="range" min="0" max="500" value="10" class="slider" id="flySpeed" oninput="eAPI.cheat('flySpeed', this.value)">
-            </div>
-            <button onclick="eAPI.cheat('aimbot')">Enable Aimbot</button>
-            <button onclick="eAPI.cheat('unlimitedHealth')">Unlimited Health</button>
-            <button onclick="eAPI.cheat('unlimitedArmor')">Unlimited Armor</button>
-            <button onclick="eAPI.cheat('unlimitedPistolAmmo')">Unlimited Pistol Ammo</button>
-            <button onclick="eAPI.cheat('unlimitedRiffleAmmo')">Unlimited Riffle Ammo</button>
-            <button onclick="eAPI.cheat('unlimitedDoublePistolAmmo')">Unlimited Double Pistol Ammo</button>
-            <button onclick="eAPI.cheat('unlimitedGrenadeAmmo')">Unlimited Grenade Ammo</button>
-            <button onclick="eAPI.cheat('unlimitedGrenades')">Unlimited Grenades</button>
-          </div>
+          <div class="tabs">
 
-          <div class="cheats" id="visual">
-            <button onclick="eAPI.cheat('esp')">ESP</button>
+            <div class="cheats" id="exploit">
+              <button onclick="eAPI.cheat('fly')">Enable Fly</button>
+              <div class="range input-group">
+                Fly speed
+                <input type="range" min="0" max="500" value="10" class="slider" id="flySpeed" oninput="eAPI.cheat('flySpeed', this.value)">
+              </div>
+              <button onclick="eAPI.cheat('aimbot')">Enable Aimbot</button>
+              <button onclick="eAPI.cheat('unlimitedealth')">Unlimited Health</button>
+              <button onclick="eAPI.cheat('unlimitedArmor')">Unlimited Armor</button>
+              <button onclick="eAPI.cheat('unlimitedPistolAmmo')">Unlimited Pistol Ammo</button>
+              <button onclick="eAPI.cheat('unlimitedRiffleAmmo')">Unlimited Riffle Ammo</button>
+              <button onclick="eAPI.cheat('unlimitedDoublePistolAmmo')">Unlimited Double Pistol Ammo</button>
+              <button onclick="eAPI.cheat('unlimitedGrenadeAmmo')">Unlimited Grenade Ammo</button>
+            </div>
+  
+            <div class="cheats" id="visual">
+              <button onclick="eAPI.cheat('showCS')">Show cheats status in game</button>
+              <button onclick="eAPI.cheat('esp')">ESP</button>
+              <button onclick="eAPI.cheat('crosshair')">Show crosshair</button>
+              <div class="input-group">
+                Crosshair color
+                <div class="color">
+                  <input type="color" id="crosshairColor" oninput="eAPI.cheat('crosshairColor', this.value)">
+                </div>
+              </div>
+            </div>
+
+            <div class="footer">
+              <p>Created by <a href="https://github.com/k-i-o"><b>kiocode</b></a></p>
+              <p><a href="https://www.youtube.com/channel/UCIR0EMYqZJCfj3dtKGQHIPQ">Youtube channel</a></p>
+              <p><a href="https://discord.gg/3c7cwkFXG7">Discord server</a></p>
+            </div>
           </div>
           
         </div>

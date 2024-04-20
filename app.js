@@ -4,7 +4,6 @@ const path = require('path');
 //const { startCheatsLogic } = require('./cheatsMain');
 const { OverlayController, OVERLAY_WINDOW_OPTS } = require('electron-overlay-window');
 const url = require('url');
-const { discordRPC } = require('./discord');
 const cheatsMain = require('./cheatsMain');
 
 let mainWindow = null;
@@ -13,7 +12,7 @@ let overlayWindow = null;
 const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 750,
-        height: 350,
+        height: 400,
         icon: path.join(__dirname, 'src/assets/logo192x192.png'),
         webPreferences: {
             nodeIntegration: true,
@@ -76,8 +75,6 @@ const createOverlayWindow = () => {
 
 app.whenReady().then(async () => {
 
-    discordRPC(mainWindow, "1229541932431179797");
-
     ipcMain.on('close', (event) => {
         app.quit();
     });
@@ -86,19 +83,68 @@ app.whenReady().then(async () => {
         mainWindow.minimize();
     });
 
+    const sendStatus = (name, status) => { 
+        overlayWindow.webContents.send('interacted', name, status);
+    }
+
     ipcMain.on('cheat', (event, cheat, data = null) => {
         switch(cheat) {
-            case 'esp': overlayWindow.webContents.send('esp'); break;
-            case 'fly': cheatsMain.fly = !cheatsMain.fly; break;
-            case 'flySpeed': cheatsMain.flySpeed = data; break;
-            case 'aimbot': cheatsMain.aimbot = !cheatsMain.aimbot; break;
-            case 'unlimitedHealth': cheatsMain.infiniteHealth = !cheatsMain.infiniteHealth; break;
-            case 'unlimitedShield': cheatsMain.infiniteShield = !cheatsMain.infiniteShield; break;
-            case 'unlimitedPistolAmmo': cheatsMain.infiniteAmmoPistol = !cheatsMain.infiniteAmmoPistol; break;
-            case 'unlimitedRiffleAmmo': cheatsMain.infiniteAmmoRiffle = !cheatsMain.infiniteAmmoRiffle; break;
-            case 'unlimitedDoublePistolAmmo': cheatsMain.infiniteAmmoDoublePistol = !cheatsMain.infiniteAmmoDoublePistol; break;
-            case 'unlimitedGranade': cheatsMain.infiniteGranade = !cheatsMain.infiniteGranade; break;
-
+            case 'attach': 
+                cheatsMain.startCheatsLogic(); 
+                new Notification({title: 'AssaultCubeJSx', body: 'Cheats attached!', icon: path.join(__dirname, 'src/assets/logo192x192.png')}).show(); 
+                break;
+            case 'showCS': 
+                cheatsMain.showCS = !cheatsMain.showCS;
+                sendStatus('showCS', cheatsMain.showCS);
+                break;
+            case 'esp': 
+                cheatsMain.esp = !cheatsMain.esp;
+                overlayWindow.webContents.send('esp', cheatsMain.esp); 
+                sendStatus('esp', cheatsMain.esp);
+                break;
+            case 'crosshair':
+                cheatsMain.crosshair = !cheatsMain.crosshair;     
+                sendStatus('crosshair', cheatsMain.crosshair);           
+                break;
+            case 'crosshairColor':
+                cheatsMain.crosshairColor = data;
+                sendStatus('crosshairColor', cheatsMain.crosshairColor);
+                break;
+            case 'fly': 
+                cheatsMain.fly = !cheatsMain.fly; 
+                sendStatus('fly', cheatsMain.fly);
+                break;
+            case 'flySpeed': 
+                cheatsMain.flySpeed = data; 
+                break;
+            case 'aimbot':  
+                cheatsMain.aimbot = !cheatsMain.aimbot; 
+                sendStatus('aimbot', cheatsMain.aimbot);
+                break;
+            case 'unlimitedHealth': 
+                cheatsMain.infiniteHealth = !cheatsMain.infiniteHealth; 
+                sendStatus('unlimited health', cheatsMain.infiniteHealth);
+                break;
+            case 'unlimitedArmor': 
+                cheatsMain.infiniteArmor = !cheatsMain.infiniteArmor; 
+                sendStatus('unlimited armor', cheatsMain.infiniteArmor);
+                break;
+            case 'unlimitedPistolAmmo': 
+                cheatsMain.infiniteAmmoPistol = !cheatsMain.infiniteAmmoPistol; 
+                sendStatus('unlimited pistol ammo', cheatsMain.infiniteAmmoPistol);
+                break;
+            case 'unlimitedRiffleAmmo': 
+                cheatsMain.infiniteAmmoRiffle = !cheatsMain.infiniteAmmoRiffle; 
+                sendStatus('unlimited riffle ammo', cheatsMain.infiniteAmmoRiffle);
+                break;
+            case 'unlimitedDoublePistolAmmo': 
+                cheatsMain.infiniteAmmoDoublePistol = !cheatsMain.infiniteAmmoDoublePistol; 
+                sendStatus('unlimited double pistol ammo', cheatsMain.infiniteAmmoDoublePistol);
+                break;
+            case 'unlimitedGrenadeAmmo': 
+                cheatsMain.infiniteGranade = !cheatsMain.infiniteGranade; 
+                sendStatus('unlimited granades', cheatsMain.infiniteGranade);
+                break;
         }
     });
 
@@ -120,7 +166,15 @@ app.whenReady().then(async () => {
         } 
         
         //notify app started
-        new Notification({title: 'AssaultCubeJS', body: 'Cheat menu started!', icon: path.join(__dirname, 'src/assets/logo192x192.png')}).show();
+        const not = new Notification({title: 'AssaultCubeJSx', body: 'Cheat menu started!', icon: path.join(__dirname, 'src/assets/logo192x192.png')});
+        not.show();
+
+        setTimeout(() => {
+            not.close();
+        }, 2000);
+
+        cheatsMain.startCheatsLogic();
+
     }
 
 });

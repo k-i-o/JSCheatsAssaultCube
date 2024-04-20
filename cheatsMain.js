@@ -2,15 +2,21 @@ const memoryjs = require('./libs/memoryjs/index');
 const dataManager = require('./offsets');
 const readline = require('readline');
 const keypress = require('keypress');
+const { Notification } = require('electron');
+const path = require('path');
 
 class CheatsMain {
 
     constructor() {
+        this.showCS = false;
+        this.esp = false;
+        this.crosshair = false;
+        this.crosshairColor = 'red';
         this.fly = false;
         this.flySpeed = 0.1;
         this.aimbot = false;
         this.infiniteHealth = false;
-        this.infiniteShield = false;
+        this.infiniteArmor = false;
         this.infiniteAmmoPistol = false;
         this.infiniteAmmoRiffle = false;
         this.infiniteAmmoDoublePistol = false;
@@ -31,7 +37,6 @@ class CheatsMain {
         }        
         process.stdin.resume();
 
-        this.startCheatsLogic();
     }
 
     isKeyPressed(keyName) {
@@ -56,8 +61,8 @@ class CheatsMain {
         // player health
         dataManager.player.address.health = dataManager.player.pointer + dataManager.player.offsets.health;
 
-        // player shield
-        dataManager.player.address.shield = dataManager.player.pointer + dataManager.player.offsets.shield;
+        // player armor
+        dataManager.player.address.armor = dataManager.player.pointer + dataManager.player.offsets.armor;
 
         // player ammo pistol
         dataManager.player.address.ammoPistol = dataManager.player.pointer + dataManager.player.offsets.ammoPistol;
@@ -75,7 +80,16 @@ class CheatsMain {
 
     startCheatsLogic() {
 
-        this.initializeBaseAndOffsets();
+        try {
+            this.initializeBaseAndOffsets();
+        }catch(e) {
+            if(e.message === 'unable to find process') {
+                new Notification({title: 'AssaultCubeJSx', body: 'Game isn\'t running, please start the game and click attach', icon: path.join(__dirname, 'src/assets/logo192x192.png')}).show();
+                console.log('Game isn\'t running, please start the game and click attach');
+            }
+            return;
+
+        }
 
         let tempPos = {
             x: memoryjs.readMemory(dataManager.handle, dataManager.player.address.pos, memoryjs.FLOAT),
@@ -126,12 +140,11 @@ class CheatsMain {
             }
 
             if(this.infiniteHealth) {
-                console.log('infinite health');
                 memoryjs.writeMemory(dataManager.handle, dataManager.player.address.health, 9999, memoryjs.INT);
             }
 
-            if(this.infiniteShield) {
-                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.shield, 9999, memoryjs.INT);
+            if(this.infiniteArmor) {
+                memoryjs.writeMemory(dataManager.handle, dataManager.player.address.armor, 9999, memoryjs.INT);
             }
 
             if(this.infiniteAmmoPistol) {

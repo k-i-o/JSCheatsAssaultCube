@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-@c-primary: #d32213;
-@c-secondary: #e9910d;
-@c-tertiary: #eec406;
-@c-variant1: #a76145;
-@c-variant2: #7f6d6d;
+@c-accent: #ff790a;
+@c-secondary: #ffc905;
 
 @c-text: #c2c2c2;
 
@@ -15,6 +12,8 @@
 @c-titlebar-button: #3c3c3c;
 @c-hover: #ffffff17;
 
+@h-footer: 40px;
+
 @h-title-bar: 25px;
 
 * {
@@ -23,8 +22,8 @@
 }
 
 *::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 7px;
+    height: 7px;
 }
 
 *::-webkit-scrollbar-track {
@@ -70,6 +69,32 @@ html, body {
         }
     }
 
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .color {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        border-radius: 5px;
+        overflow: hidden;
+
+        input[type="color"] {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: none;
+            background-color: @c-button;
+            color: @c-text;
+            border-radius: 5px;
+            scale: 1.5;
+        }
+    }
+
     input[type="range"] {
         /* removing default appearance */
         -webkit-appearance: none;
@@ -87,14 +112,14 @@ html, body {
     /* Track: webkit browsers */
     input[type="range"]::-webkit-slider-runnable-track {
         height: 15px;
-        background: #ccc;
+        background: @c-bar;
         border-radius: 16px;
     }
     
     /* Track: Mozilla Firefox */
     input[type="range"]::-moz-range-track {
         height: 15px;
-        background: #ccc;
+        background: @c-bar;
         border-radius: 16px;
     }
     
@@ -108,9 +133,9 @@ html, body {
         width: 15px;
         background-color: #fff;
         border-radius: 50%;
-        border: 2px solid @c-button;
+        border: 2px solid @c-accent;
         /*  slider progress trick  */
-        box-shadow: -407px 0 0 400px @c-button;
+        box-shadow: -407px 0 0 400px @c-accent;
     }
     
     
@@ -120,9 +145,9 @@ html, body {
         width: 15px;
         background-color: #fff;
         border-radius: 50%;
-        border: 1px solid @c-button;
+        border: 1px solid @c-accent;
         /*  slider progress trick  */
-        box-shadow: -407px 0 0 400px @c-button;
+        box-shadow: -407px 0 0 400px @c-accent;
     }
 
     .range {
@@ -131,6 +156,14 @@ html, body {
         flex-direction: column;
         color: white;
         justify-content: space-evenly;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        color: white;
+        justify-content: flex-end;
     }
 
     .title-bar {
@@ -184,6 +217,10 @@ html, body {
         }            
     }
 
+    .title {
+        color: @c-accent;
+    }
+
     .container {
         display: flex;
         height: 100vh;
@@ -192,7 +229,7 @@ html, body {
         .left-menu {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: space-between;            
             align-items: center;
             gap: 10px;
             min-width: 200px;
@@ -213,21 +250,78 @@ html, body {
             button {
                 width: 100%;
                 padding: 15px;
+
+                &.primary {
+                    background-color: fade(@c-accent, 80%);
+                    border: 2px solid @c-accent;
+                }
+            }
+
+            .top {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;            
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .bottom {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;            
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                padding-bottom: 20px;
             }
         }
 
-        .cheats {
-            padding: 20px;
+        .tabs {
             width: 100%;
-            height: 100%;
-            gap: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 2fr));
-            grid-template-rows: repeat(12, 2fr);
-            overflow-y: auto;
+            height: calc(100% - @h-footer - @h-title-bar);
 
-            &#visual {
-                display: none;
+            .cheats {
+                padding: 20px;
+                width: 100%;
+                height: 100%;
+                gap: 20px;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 2fr));
+                grid-template-rows: repeat(5, 2fr);
+                overflow-y: auto;
+
+                &#visual {
+                    display: none;
+                }
+            }
+
+            .footer {
+                height: @h-footer;
+                width: 100%;
+                background-color: @c-bar;
+                display: flex;
+                gap: 10px;
+                justify-content: space-evenly;
+                align-items: center;
+                color: white;
+                opacity: 0.7;
+                padding: 0 10px;
+
+                a {
+                    text-decoration: none;
+                    color: @c-secondary;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                b {
+                    font-weight: bold;
+                    color: @c-accent !important;
+                    text-shadow: 0 0 10px @c-accent;
+                }
             }
         }
     }
